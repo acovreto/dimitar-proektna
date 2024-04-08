@@ -1,3 +1,30 @@
+<?php
+// session_start();
+include('server.php');
+
+
+
+// if (isset($_POST['submit']) && !isset($_SESSION['username'])) {
+//   echo "<script>alert('You must be signed to write comments! Please sign in!')</script>";
+// }
+// if (isset($_SESSION['username'])) {
+
+//   if (isset($_POST['submit'])) {
+//     $text = strip_tags($_POST['text']);
+//     if (empty($text)) {
+//       array_push($errors, "Empty comment!");
+//     }
+//     $author = $_SESSION['username'];
+
+//     $query = "INSERT INTO comments(author,text )
+//   VALUES('$author', '$text')";
+//     mysqli_query($db, $query);
+//   }
+//   unset($author);
+//   unset($_POST['text']);
+// }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,9 +50,7 @@
   -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Work+Sans:wght@600&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Work+Sans:wght@600&display=swap" rel="stylesheet">
 
   <!-- 
     - custom css link
@@ -37,7 +62,31 @@
   -->
   <link rel="preload" as="image" href="./assets/images/hero-banner.png">
   <link rel="preload" as="image" href="./assets/images/hero-banner-bg.png">
-
+  <script type="text/javascript" src='https://cdn.tiny.cloud/1/gsaziawy84a3oa8r3uomugy3oidh3zagw62wj981hcbv05eu/tinymce/7/tinymce.min.js' referrerpolicy="origin">
+  </script>
+  <script type="text/javascript">
+    tinymce.init({
+      selector: '#comment',
+      width: 800,
+      height: 200,
+      plugins: [
+        'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+        'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+        'media', 'table', 'emoticons', 'help'
+      ],
+      toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+        'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+        'forecolor backcolor emoticons | help',
+      menu: {
+        favs: {
+          title: 'My Favorites',
+          items: 'code visualaid | searchreplace | emoticons'
+        }
+      },
+      menubar: 'favs file edit view insert format tools table help',
+      content_css: 'css/content.css'
+    });
+  </script>
 </head>
 
 <body id="top">
@@ -69,14 +118,22 @@
           </li>
 
           <li class="navbar-item">
-            <a  href="#contact" class="navbar-link" data-nav-link>contact</a>
+            <a href="#contact" class="navbar-link" data-nav-link>contact</a>
           </li>
 
         </ul>
       </nav>
 
-      <a href="https://shorturl.at/gnF47" target="_blank" class="btn" data-btn>SIGN IN</a>
 
+      <?php
+      if (isset($_SESSION['username'])) {
+        echo "<a href='sign-out.php'  class='btn' data-btn>SIGN OUT</a>";
+        echo "<button class='btn'>Welcome " .  $_SESSION['username'] . "</button>";
+      } else {
+        echo "<a href='sign-in.php'  class='btn' data-btn> SIGN IN</a>";
+      }
+
+      ?>
       <button class="nav-toggle-btn" aria-label="toggle menu" data-nav-toggler>
         <span class="line line-1"></span>
         <span class="line line-2"></span>
@@ -144,12 +201,11 @@
 
               <div class="upcoming-card left has-before" data-reveal="left">
 
-                <img src="./assets/images/t1.png" width="86" height="81" loading="lazy"
-                  alt="Purple Death Cadets" class="card-banner">
+                <img src="./assets/images/t1.png" width="86" height="81" loading="lazy" alt="Purple Death Cadets" class="card-banner">
 
                 <h3 class="h3 card-title">SK Telecom T1</h3>
 
-                <div class="card-meta"><a href="https://lolesports.com/teams/t1" target="_blank" >Team Members</a></div>
+                <div class="card-meta"><a href="https://lolesports.com/teams/t1" target="_blank">Team Members</a></div>
 
               </div>
 
@@ -171,12 +227,11 @@
 
               <div class="upcoming-card right has-before" data-reveal="right">
 
-                <img src="./assets/images/jdg.png" width="86" height="81" loading="lazy"
-                  alt="Trigger Brain Squad" class="card-banner">
+                <img src="./assets/images/jdg.png" width="86" height="81" loading="lazy" alt="Trigger Brain Squad" class="card-banner">
 
                 <h3 class="h3 card-title">JD Gaming</h3>
 
-                <div class="card-meta"><a href="https://lolesports.com/teams/jd-gaming" target="_blank" >Team Members</a></div>
+                <div class="card-meta"><a href="https://lolesports.com/teams/jd-gaming" target="_blank">Team Members</a></div>
 
               </div>
 
@@ -186,12 +241,11 @@
 
               <div class="upcoming-card left has-before" data-reveal="left">
 
-                <img src="./assets/images/fnc.png" width="86" height="81" loading="lazy"
-                  alt="The Black Hat Hackers" class="card-banner">
+                <img src="./assets/images/fnc.png" width="86" height="81" loading="lazy" alt="The Black Hat Hackers" class="card-banner">
 
                 <h3 class="h3 card-title">Fnatic</h3>
 
-                <div class="card-meta"><a href="https://lolesports.com/teams/fnatic" target="_blank" >Team Members</a></div>
+                <div class="card-meta"><a href="https://lolesports.com/teams/fnatic" target="_blank">Team Members</a></div>
 
               </div>
 
@@ -213,12 +267,11 @@
 
               <div class="upcoming-card right has-before" data-reveal="right">
 
-                <img src="./assets/images/g2.png" width="86" height="81" loading="lazy"
-                  alt="Your Worst Nightmare" class="card-banner">
+                <img src="./assets/images/g2.png" width="86" height="81" loading="lazy" alt="Your Worst Nightmare" class="card-banner">
 
                 <h3 class="h3 card-title">G2 Esports</h3>
 
-                <div class="card-meta"><a href="https://lolesports.com/teams/g2-esports" target="_blank" >Team Members</a></div>
+                <div class="card-meta"><a href="https://lolesports.com/teams/g2-esports" target="_blank">Team Members</a></div>
 
               </div>
 
@@ -228,12 +281,11 @@
 
               <div class="upcoming-card left has-before" data-reveal="left">
 
-                <img src="./assets/images/blg.png" width="86" height="81" loading="lazy"
-                  alt="Witches And Quizards" class="card-banner">
+                <img src="./assets/images/blg.png" width="86" height="81" loading="lazy" alt="Witches And Quizards" class="card-banner">
 
                 <h3 class="h3 card-title">Bilibili Gaming</h3>
 
-                <div class="card-meta"><a href="https://lolesports.com/teams/bilibili-gaming" target="_blank" >Team Members</a></div>
+                <div class="card-meta"><a href="https://lolesports.com/teams/bilibili-gaming" target="_blank">Team Members</a></div>
 
               </div>
 
@@ -255,12 +307,11 @@
 
               <div class="upcoming-card right has-before" data-reveal="right">
 
-                <img src="./assets/images/geng.png" width="86" height="81" loading="lazy"
-                  alt="Resting Bitch Faces" class="card-banner">
+                <img src="./assets/images/geng.png" width="86" height="81" loading="lazy" alt="Resting Bitch Faces" class="card-banner">
 
                 <h3 class="h3 card-title">Gen.G</h3>
 
-                <div class="card-meta"><a href="https://lolesports.com/teams/geng" target="_blank" >Team Members</a></div>
+                <div class="card-meta"><a href="https://lolesports.com/teams/geng" target="_blank">Team Members</a></div>
 
               </div>
 
@@ -298,8 +349,7 @@
               <div class="news-card">
 
                 <figure class="card-banner img-holder" style="--width: 600; --height: 400;">
-                  <img src="./assets/images/14.4.jpg" width="600" height="400" loading="lazy"
-                    alt="Innovative Business All Over The World." class="img-cover">
+                  <img src="./assets/images/14.4.jpg" width="600" height="400" loading="lazy" alt="Innovative Business All Over The World." class="img-cover">
                 </figure>
 
                 <div class="card-content">
@@ -341,8 +391,7 @@
               <div class="news-card">
 
                 <figure class="card-banner img-holder" style="--width: 600; --height: 400;">
-                  <img src="./assets/images/14.2.jpg" width="600" height="400" loading="lazy"
-                    alt="How To Start Initiating An Startup In Few Days." class="img-cover">
+                  <img src="./assets/images/14.2.jpg" width="600" height="400" loading="lazy" alt="How To Start Initiating An Startup In Few Days." class="img-cover">
                 </figure>
 
                 <div class="card-content">
@@ -384,8 +433,7 @@
               <div class="news-card">
 
                 <figure class="card-banner img-holder" style="--width: 600; --height: 400;">
-                  <img src="./assets/images/14.3.jpg" width="600" height="400" loading="lazy"
-                    alt="Financial Experts Support Help You To Find Out." class="img-cover">
+                  <img src="./assets/images/14.3.jpg" width="600" height="400" loading="lazy" alt="Financial Experts Support Help You To Find Out." class="img-cover">
                 </figure>
 
                 <div class="card-content">
@@ -549,13 +597,12 @@
 
           <p class="title footer-list-title has-after">Newsletter Signup</p>
 
-          <form action="./index.html" method="get" class="footer-form">
-            <input type="email" name="email_address" required placeholder="Your Email" autocomplete="off"
-              class="input-field">
+          <form action="./sendmail.php" method="post" class="footer-form">
+            <input type="email" name="email" required placeholder="Your Email" autocomplete="off" class="input-field">
 
-            <button type="submit" class="btn" data-btn>Subscribe Now</button>
+            <button type="submit" name="sendmail" value="sendmail" class="btn" data-btn>Subscribe Now</button>
           </form>
-
+          <?php include "error.php"; ?>
         </div>
 
       </div>
@@ -570,7 +617,32 @@
 
       </div>
     </div>
+    <div class="container mt-3" id="comments">
 
+      <form action="coment.php" method="post">
+        <div class="mb-3 mt-3">
+          <label for="comment">Comments:</label>
+
+          <textarea class="form-control bg-primary" rows="1" id="comment" name="text" placeholder="Write a comment..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
+      </form>
+      <?php include('error.php'); ?>
+      <?php
+      $sql = "SELECT id, author, text FROM comments ORDER BY id DESC";
+      $result = mysqli_query($db, $sql);
+
+      if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        while ($row = mysqli_fetch_assoc($result)) {
+          echo " Author: " . $row["author"] . "<br>Comment: " . $row["text"] . "<br><br>";
+        }
+      } else {
+        echo "No comments";
+      }
+      mysqli_close($db);
+      ?>
+    </div>
   </footer>
 
 
@@ -601,7 +673,9 @@
 
   <!-- 
     - custom js link
+    
   -->
+
   <script src="./assets/js/script.js"></script>
 
   <!-- 
